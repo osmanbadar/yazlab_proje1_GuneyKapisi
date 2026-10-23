@@ -1,6 +1,5 @@
 namespace GuneyKapisi.Companion
 {
-    // Hiçbir şey yapmaz, yerinde durur (test başlangıcı vb.).
     public class IdleState : CompanionStateBase
     {
         public IdleState(CompanionAgent pip) : base(pip) { }

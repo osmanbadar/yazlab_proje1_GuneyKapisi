@@ -2,8 +2,6 @@ using UnityEngine;
 
 namespace GuneyKapisi.Companion
 {
-    // Yol yok / takıldı / çok bekledi. En fazla MaxRetries kez yeniden dener,
-    // sonra vazgeçip oyuncuya döner ve durumu Failed yapar.
     public class FailedState : CompanionStateBase
     {
         private float _retryTime;

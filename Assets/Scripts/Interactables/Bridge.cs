@@ -5,15 +5,13 @@ using GuneyKapisi.Core;
 
 namespace GuneyKapisi.Interactables
 {
-    // Kalkık köprü. Lower() ile iner; inince NavMesh yenilenir ve
-    // GameEvents.OnObstacleCleared tetiklenir (oyun Kamp bölümüne geçer).
     public class Bridge : MonoBehaviour, IResettable
     {
         [SerializeField] private Transform pivot;
         [SerializeField] private Vector3 raisedEuler = new Vector3(-80f, 0f, 0f);
         [SerializeField] private float lowerDuration = 2f;
         [SerializeField] private NavMeshSurface[] surfacesToRebuild;
-        [SerializeField] private GameObject edgeBlocker;   // köprü önündeki görünmez duvar
+        [SerializeField] private GameObject edgeBlocker;
         [SerializeField] private bool raiseGameEvent = true;
 
         private Coroutine _routine;
@@ -38,7 +36,7 @@ namespace GuneyKapisi.Interactables
                 yield return null;
             }
             pivot.localRotation = Quaternion.identity;
-            if (edgeBlocker != null) edgeBlocker.SetActive(false);   // oyuncu geçebilsin
+            if (edgeBlocker != null) edgeBlocker.SetActive(false);
             RebuildNavMesh();
             if (raiseGameEvent) GameEvents.RaiseObstacleCleared();
         }

@@ -4,12 +4,11 @@ using GuneyKapisi.Companion;
 
 namespace GuneyKapisi.PlayerControl
 {
-    // Uçurumun önündeki görünmez alan. Oyuncu içindeyken E → Pip'e emir.
     [RequireComponent(typeof(Collider))]
     public class PlayerCommandIssuer : MonoBehaviour
     {
-        [SerializeField] private MonoBehaviour companionSource;   // ICommandable (Pip)
-        [SerializeField] private GameObject hint;                 // "Pip'e emir vermek için E"
+        [SerializeField] private MonoBehaviour companionSource;
+        [SerializeField] private GameObject hint;
 
         private ICommandable _companion;
         private bool _playerInside;
