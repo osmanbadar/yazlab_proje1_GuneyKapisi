@@ -2,12 +2,11 @@ using UnityEngine;
 
 namespace GuneyKapisi.Companion
 {
-    // Tek bir ışının ölçümü: neye, ne kadar uzakta, hangi açıyla çarptı.
     public readonly struct SensorReading
     {
         public readonly bool HasHit;
-        public readonly float Distance;   // metre
-        public readonly float Angle;      // derece; 0 = tam ön, eksi = sol, artı = sağ
+        public readonly float Distance;
+        public readonly float Angle;
         public readonly Vector3 Point;
         public readonly Collider Collider;
 

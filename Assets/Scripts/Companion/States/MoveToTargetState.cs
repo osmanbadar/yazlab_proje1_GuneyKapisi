@@ -3,7 +3,6 @@ using UnityEngine.AI;
 
 namespace GuneyKapisi.Companion
 {
-    // Şaltere gider. Yolu NavMesh (A*) hesaplar; bu sınıf yalnızca karar verir.
     public class MoveToTargetState : CompanionStateBase
     {
         private float _bestDistance;
@@ -25,9 +24,8 @@ namespace GuneyKapisi.Companion
         public override void Tick()
         {
             NavMeshAgent agent = Pip.Agent;
-            if (agent.pathPending) return;   // yol hâlâ hesaplanıyor
+            if (agent.pathPending) return;
 
-            // 1) Yol hiç yoksa ya da 2 sn'den uzun süre yarımsa: başarısız
             if (agent.pathStatus == NavMeshPathStatus.PathInvalid)
             {
                 Pip.ChangeState(Pip.FailedState);
@@ -47,21 +45,18 @@ namespace GuneyKapisi.Companion
                 _partialSince = -1f;
             }
 
-            // 2) Sensör önde yakın bir engel görüyorsa: bekle
             if (Pip.IsPathBlockedAhead())
             {
                 Pip.ChangeState(Pip.WaitState);
                 return;
             }
 
-            // 3) Hedefe vardıysa: şalteri indir
             if (Pip.HasArrived())
             {
                 Pip.ChangeState(Pip.InteractState);
                 return;
             }
 
-            // 4) Kalan mesafe uzun süredir azalmıyorsa: takıldı
             if (agent.remainingDistance < _bestDistance - 0.1f)
             {
                 _bestDistance = agent.remainingDistance;
