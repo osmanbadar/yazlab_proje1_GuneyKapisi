@@ -15,7 +15,7 @@ namespace GuneyKapisi.NPC
                 string reply = ((string)obj["reply"])?.Trim();
                 if (string.IsNullOrEmpty(reply)) return false; 
                 NpcAction action = ParseAction((string)obj["action"]);
-                string mood = (string)obj["mood"] ?? "";
+                string mood = ((string)obj["mood"])?.Trim() ?? "";
                 result = new NpcResponse(reply, action, mood);
                 return true;
             }
