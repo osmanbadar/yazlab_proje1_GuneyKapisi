@@ -6,25 +6,23 @@ using GuneyKapisi.Interactables;
 
 namespace GuneyKapisi.Companion
 {
-    // Pip. Durum makinesini çalıştırır; emir alır (ICommandable); testte
-    // başlangıç hâline dönebilir (IResettable).
     [RequireComponent(typeof(NavMeshAgent))]
     public class CompanionAgent : MonoBehaviour, ICommandable, IResettable
     {
         [Header("Bağlantılar")]
         [SerializeField] private Transform player;
-        [SerializeField] private MonoBehaviour targetSource;   // IInteractable (şalter)
-        [SerializeField] private MonoBehaviour sensorSource;   // ISensor (Hafta 2)
+        [SerializeField] private MonoBehaviour targetSource;
+        [SerializeField] private MonoBehaviour sensorSource;
 
         [Header("Davranış ayarları")]
         [SerializeField] private float followDistance = 2.5f;
-        [SerializeField] private float waitDistance = 1.5f;     // daha yakın engel → bekle
-        [SerializeField] private float waitHalfAngle = 35f;     // ön tarafta ±35°
-        [SerializeField] private float stuckSeconds = 4f;       // ilerleme yoksa takıldı say
+        [SerializeField] private float waitDistance = 1.5f;
+        [SerializeField] private float waitHalfAngle = 35f;
+        [SerializeField] private float stuckSeconds = 4f;
         [SerializeField] private float maxWaitSeconds = 10f;
         [SerializeField] private int maxRetries = 3;
 
-        public event Action<string> Notified;   // oyuncuya gösterilecek kısa mesaj
+        public event Action<string> Notified;
 
         public CompanionStatus Status { get; internal set; } = CompanionStatus.Idle;
         public int RetryCount { get; internal set; }
@@ -68,8 +66,8 @@ namespace GuneyKapisi.Companion
 
         private void Update()
         {
-            Sensor?.Sense();   // önce algıla
-            _current?.Tick();  // sonra karar ver
+            Sensor?.Sense();
+            _current?.Tick();
         }
 
         public void ChangeState(ICompanionState next)
@@ -115,7 +113,6 @@ namespace GuneyKapisi.Companion
             Notified?.Invoke(message);
         }
 
-        // Sensör: önde, belirlenen açı içinde, yakın bir engel var mı?
         public bool IsPathBlockedAhead()
         {
             if (Sensor == null) return false;

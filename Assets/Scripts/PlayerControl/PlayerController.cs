@@ -4,13 +4,12 @@ using GuneyKapisi.Core;
 
 namespace GuneyKapisi.PlayerControl
 {
-    // WASD / ok tuşlarıyla yürüyüş. Yeni Input System (Keyboard.current) kullanır.
     [RequireComponent(typeof(CharacterController))]
     public class PlayerController : MonoBehaviour
     {
-        [SerializeField] private Transform cameraTransform;   // hareket kamera yönüne göre
+        [SerializeField] private Transform cameraTransform;
         [SerializeField] private float moveSpeed = 5f;
-        [SerializeField] private float turnSpeed = 720f;      // derece / saniye
+        [SerializeField] private float turnSpeed = 720f;
         [SerializeField] private float gravity = -20f;
 
         private CharacterController _controller;
@@ -19,7 +18,6 @@ namespace GuneyKapisi.PlayerControl
 
         private void Awake() => _controller = GetComponent<CharacterController>();
 
-        // Diyalog açıkken oyuncu yazarken W/A/S/D ile yürümesin (Kişi 2 ile sözleşme).
         private void OnEnable() => GameEvents.OnDialogueToggled += SetInputLocked;
         private void OnDisable() => GameEvents.OnDialogueToggled -= SetInputLocked;
         private void SetInputLocked(bool locked) => _inputLocked = locked;
@@ -38,7 +36,6 @@ namespace GuneyKapisi.PlayerControl
                     transform.rotation, target, turnSpeed * Time.deltaTime);
             }
 
-            // Yerdeyken hafifçe aşağı bastır, havadaysa yerçekimi uygula.
             _verticalVelocity = _controller.isGrounded
                 ? -1f
                 : _verticalVelocity + gravity * Time.deltaTime;

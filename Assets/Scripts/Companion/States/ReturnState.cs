@@ -2,7 +2,6 @@ using UnityEngine;
 
 namespace GuneyKapisi.Companion
 {
-    // Oyuncuya geri döner; yanına varınca takibe geçer.
     public class ReturnState : CompanionStateBase
     {
         private float _nextRepathTime;

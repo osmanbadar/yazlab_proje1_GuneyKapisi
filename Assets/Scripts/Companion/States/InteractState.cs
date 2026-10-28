@@ -2,7 +2,6 @@ using UnityEngine;
 
 namespace GuneyKapisi.Companion
 {
-    // Hedefe vardı: şalteri indirir, kısa bir an bekleyip geri döner.
     public class InteractState : CompanionStateBase
     {
         private float _doneTime;

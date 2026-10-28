@@ -2,7 +2,6 @@ using UnityEngine;
 
 namespace GuneyKapisi.Companion
 {
-    // Oyuncuyu belli bir mesafeden takip eder.
     public class FollowState : CompanionStateBase
     {
         private float _nextRepathTime;
@@ -19,7 +18,7 @@ namespace GuneyKapisi.Companion
         public override void Tick()
         {
             if (Pip.Player == null || Time.time < _nextRepathTime) return;
-            _nextRepathTime = Time.time + 0.25f;   // saniyede 4 kez yol hesapla
+            _nextRepathTime = Time.time + 0.25f;
 
             if (Pip.DistanceToPlayer > Pip.FollowDistance)
                 Pip.Agent.SetDestination(Pip.Player.position);

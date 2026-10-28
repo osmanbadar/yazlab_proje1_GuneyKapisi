@@ -1,6 +1,5 @@
 namespace GuneyKapisi.Companion
 {
-    // Durumların ortak tabanı: Pip referansını tutar, boş Enter/Tick/Exit sağlar.
     public abstract class CompanionStateBase : ICompanionState
     {
         protected readonly CompanionAgent Pip;

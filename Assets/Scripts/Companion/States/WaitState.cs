@@ -2,7 +2,6 @@ using UnityEngine;
 
 namespace GuneyKapisi.Companion
 {
-    // Sensör önde engel gördü: durur, yol 0.3 sn boyunca açık kalınca devam eder.
     public class WaitState : CompanionStateBase
     {
         private float _enterTime;
@@ -24,9 +23,9 @@ namespace GuneyKapisi.Companion
             else if (_clearSince < 0f) _clearSince = Time.time;
 
             if (_clearSince >= 0f && Time.time - _clearSince > 0.3f)
-                Pip.ChangeState(Pip.MoveToTargetState);   // yol açık: devam
+                Pip.ChangeState(Pip.MoveToTargetState);
             else if (Time.time - _enterTime > Pip.MaxWaitSeconds)
-                Pip.ChangeState(Pip.FailedState);         // çok uzun bekledi
+                Pip.ChangeState(Pip.FailedState);
         }
 
         public override void Exit() => Pip.Agent.isStopped = false;

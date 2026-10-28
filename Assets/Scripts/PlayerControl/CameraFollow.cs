@@ -2,7 +2,6 @@ using UnityEngine;
 
 namespace GuneyKapisi.PlayerControl
 {
-    // Hedefi sabit bir açıdan, yumuşak şekilde takip eden kamera.
     public class CameraFollow : MonoBehaviour
     {
         [SerializeField] private Transform target;
@@ -11,7 +10,6 @@ namespace GuneyKapisi.PlayerControl
 
         private Vector3 _velocity;
 
-        // LateUpdate: oyuncu Update'te hareket ettikten sonra kamera gelir; titreme olmaz.
         private void LateUpdate()
         {
             if (target == null) return;
