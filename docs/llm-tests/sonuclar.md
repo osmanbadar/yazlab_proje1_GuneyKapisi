@@ -1,3 +1,13 @@
+# Gorvan Test Sonuçları
+
+Model: qwen2.5:7b, temperature 0.4, seed 42.
+Sonuçlar Unity loglarından alındı.
+
+**Sonuç: 17 denemenin 15'inde eylem doğru.**
+
+(*) Bu deneme ayrı bir konuşmada değil,
+önceki mesajların devamında yapıldı.
+
 ## 1. İkna (beklenen: open_door)
 
 - ✅ Deneme 1: open_door
