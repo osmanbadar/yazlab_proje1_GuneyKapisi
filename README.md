@@ -80,3 +80,38 @@ flowchart LR
     B -- Evet --> C[Wait]
     B -- Hayır --> D[MoveToTarget]
     C -- Yol açıldı --> D
+
+## 5. Testler
+
+### Pip
+
+`Test_CompanionRuns` sahnesinde `CompanionTestRunner` Pip'i 5
+farklı başlangıç noktasından 10'ar kez çalıştırdı. Her
+denemede hareketli blokların ayarları rastgele değişti.
+Sonuçları tekrar alabilmek için sabit seed (12345) kullandık.
+Ham veri: [CSV dosyası](docs/companion_results_20261031_041426.csv)
+
+| Başlangıç noktası | Başarı | Ortalama (sn) | En kısa (sn) | En uzun (sn) |
+|---|---|---|---|---|
+| 1 | 10/10 | 7,80 | 6,60 | 9,02 |
+| 2 | 10/10 | 7,33 | 5,85 | 9,32 |
+| 3 | 10/10 | 6,44 | 5,59 | 7,51 |
+| 4 | 10/10 | 5,92 | 5,08 | 7,55 |
+| 5 | 10/10 | 6,69 | 5,99 | 7,46 |
+| **Toplam** | **50/50** | **6,83** | **5,08** | **9,32** |
+
+Süreler oyun zamanı. Test 2x hızda çalıştığı için gerçek
+süre yaklaşık yarısı kadar. Hiçbir deneme zaman aşımına
+uğramadı.
+
+### Gorvan
+
+Yedi senaryoyu denedik: ikna, kızdırma, alakasız konuşma,
+kandırma, prompt injection, mektup ve veda. 17 denemenin
+15'inde eylem doğru çıktı. Bazı denemeler ayrı konuşmada
+yapılmadı, bunları sonuç dosyasında işaretledik. Tüm
+cevaplar: [Gorvan test sonuçları](docs/llm-tests/sonuclar.md)
+
+Yanlış çıkan iki denemeden birinde Gorvan "geç" dediği halde
+`none` döndü. Diğerinde kaba mesajlara "Bu son uyarım"
+demeye devam etti ve saldırmadı.
