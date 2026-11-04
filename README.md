@@ -1,8 +1,8 @@
 # Güney Kapısı
 
-**Ekip:** Zeynep Uğurlu, Osman Badar
-**Ders:** Yazılım Geliştirme Laboratuvarı-I, Proje 1
-**Tarih:** 6 Kasım 2026
+- **Ekip:** Zeynep Uğurlu, Osman Badar
+- **Ders:** Yazılım Geliştirme Laboratuvarı-I, Proje 1
+- **Tarih:** 6 Kasım 2026
 
 ## 1. Giriş
 
@@ -25,6 +25,43 @@ depoda. Oyuncu oraya ulaşmaya çalışıyor:
 3. **Güney Kapısı:** Oyuncu Gorvan'la serbest metinle
    konuşuyor. Gorvan ikna olursa kapı açılıyor ve oyun
    kazanılıyor. Gorvan saldırırsa oyun kaybediliyor.
+
+### Sınıf yapısı
+
+```mermaid
+classDiagram
+    class ICommandable
+    class IResettable
+    class IRandomizable
+    class ICompanionState
+    class ISensor
+    class IInteractable
+    class ILLMClient
+    class IResponseParser
+    class INpcActionHandler
+    class IPlayerContextProvider
+
+    ICommandable <|.. CompanionAgent
+    IResettable <|.. CompanionAgent
+    ICompanionState <|.. CompanionStateBase
+    CompanionStateBase <|-- FollowState
+    CompanionStateBase <|-- MoveToTargetState
+    CompanionStateBase <|-- WaitState
+    ISensor <|.. RaycastSensor
+    IInteractable <|.. Lever
+    IResettable <|.. Bridge
+    IRandomizable <|.. MovingBlock
+    ILLMClient <|.. OllamaClient
+    IResponseParser <|.. NpcResponseParser
+    INpcActionHandler <|.. DoorActionHandler
+    IPlayerContextProvider <|.. Inventory
+    CompanionAgent --> ISensor
+    CompanionAgent --> IInteractable
+    GuardNPC --> ILLMClient
+    GuardNPC --> IResponseParser
+    GuardNPC --> INpcActionHandler
+    GuardNPC --> IPlayerContextProvider
+```
 
 ## 2. Otonom Kahraman: Pip
 
@@ -80,6 +117,7 @@ flowchart LR
     B -- Evet --> C[Wait]
     B -- Hayır --> D[MoveToTarget]
     C -- Yol açıldı --> D
+```
 
 ## 5. Testler
 
@@ -115,3 +153,23 @@ cevaplar: [Gorvan test sonuçları](docs/llm-tests/sonuclar.md)
 Yanlış çıkan iki denemeden birinde Gorvan "geç" dediği halde
 `none` döndü. Diğerinde kaba mesajlara "Bu son uyarım"
 demeye devam etti ve saldırmadı.
+
+## 6. Sonuç ve Tartışma
+
+Minimum senaryoyu baştan sona çalıştırabildik. Pip 50 denemenin
+50'sinde şaltere ulaştı. Gorvan testlerinde 17 denemenin 15'inde
+eylem doğru çıktı. Kapıyı `action` alanı açtığı için oyunun
+davranışı serbest metne bağlı kalmadı.
+
+En zayıf yanımız dil modeli. Gorvan bazen "geç" deyip kapıyı
+açmıyor, bazen kaba mesajlara rağmen saldırmıyor. Mektup kuralı
+da modele bağlı. Mektup yokken yaptığımız oyun içi testlerde
+yalana inanmadı, ama doğrudan Ollama'ya yaptığımız bir denemede
+4 mesajın 2'sinde kapıyı açtı. Sabit seed sonuçları
+tekrarlanabilir yapıyor, ama her cümlede doğru karar vereceğini
+garanti etmiyor.
+
+Daha fazla zamanımız olsaydı daha büyük bir modeli denemek ve
+Gorvan senaryolarının deneme sayısını artırmak isterdik. Oyun
+tarafında ise karakterler için model ve animasyon eklemek,
+görselleri geliştirmek isterdik.
