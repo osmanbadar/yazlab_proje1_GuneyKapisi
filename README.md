@@ -173,3 +173,14 @@ Daha fazla zamanımız olsaydı daha büyük bir modeli denemek ve
 Gorvan senaryolarının deneme sayısını artırmak isterdik. Oyun
 tarafında ise karakterler için model ve animasyon eklemek,
 görselleri geliştirmek isterdik.
+
+## Kurulum ve Çalıştırma
+
+1. [Ollama](https://ollama.com/) kurun.
+2. Modeli indirin: `ollama pull qwen2.5:7b`
+3. Ollama'yı açık bırakın.
+4. Build'i çalıştırın. Ya da projeyi Unity 6000.3.26f1 ile açıp
+   `Assets/Scenes/Main.unity` sahnesinde Play'e basın.
+
+**Kontroller:** WASD ile hareket, E ile Pip'e emir verme ve
+Gorvan'la konuşma.
