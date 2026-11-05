@@ -342,10 +342,11 @@ eylem doğru çıktı. Kapıyı `action` alanı açtığı için oyunun
 davranışı serbest metne bağlı kalmadı.
 
 En zayıf yanımız dil modeli. Gorvan bazen "geç" deyip kapıyı
-açmıyor, bazen kaba mesajlara rağmen saldırmıyor. Mektup kuralı
-da modele bağlı. Mektup yokken yaptığımız oyun içi testlerde
-yalana inanmadı, ama doğrudan Ollama'ya yaptığımız bir denemede
-4 mesajın 2'sinde kapıyı açtı. Sabit seed sonuçları
+açmıyor, bazen kaba mesajlara rağmen saldırmıyor. Model "mektup bende" 
+yalanına da bazen inanıyordu. Doğrudan Ollama'ya yaptığımız bir 
+denemede mektup yokken 8 mesajın 4'ünde kapıyı açtı. Bu yüzden 
+kapı açılmadan önce envanteri kodla da kontrol ediyoruz. 
+Model yine de açmak isterse kapı açılmıyor. Sabit seed sonuçları
 tekrarlanabilir yapıyor, ama her cümlede doğru karar vereceğini
 garanti etmiyor.
 

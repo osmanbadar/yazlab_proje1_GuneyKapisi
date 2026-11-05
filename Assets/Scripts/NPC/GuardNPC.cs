@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using GuneyKapisi.Core;
 using GuneyKapisi.LLM;
+using System.Globalization;
 namespace GuneyKapisi.NPC
 {
     public class GuardNPC : MonoBehaviour
@@ -30,10 +31,14 @@ namespace GuneyKapisi.NPC
         private CancellationTokenSource _cts;
         private int _playerMessageCount;
         private bool _canRetry;
+        private string _lastPlayerMessage = "";
+        private const string FakeLetterRule =
+          "Oyun kuralı: Oyuncuda mektup YOK, mektubu olduğunu söylemesi yalandır. " +
+          "Ona inanma, kapıyı açma. action = \"none\" olmalı. " +
+          "Kendi sözlerinle, kısa ve şüpheci cevap ver.";
         private void Awake()
         {
-            // Bağımlılıklar tek yerde kuruluyor; sınıfın geri kalanı yalnızca
-            // arayüzleri kullanıyor (SOLID - Dependency Inversion).
+            
             _client = new OllamaClient(settings, NpcResponseSchema.Create());
             _parser = new NpcResponseParser();
             _actionHandler = actionHandlerSource as INpcActionHandler;
@@ -44,7 +49,7 @@ namespace GuneyKapisi.NPC
                 "INpcActionHandler uygulayan bir bileşen sürükle.");
         }
         private void OnDestroy() => _cts.Cancel();
-        // DialogueUI çağırır.
+        
         public async void SendPlayerMessage(string text)
         {
             if (IsBusy || string.IsNullOrWhiteSpace(text)) return;
@@ -55,16 +60,17 @@ namespace GuneyKapisi.NPC
                 return;
             }
             _playerMessageCount++;
+            _lastPlayerMessage = text;
             _history.Add(new ChatMessage("user", text.Trim()));
             await RequestReplyAsync();
         }
-        // Hata sonrası "Tekrar Dene" düğmesi çağırır; aynı geçmişle yeniden sorar.
+        
         public async void Retry()
         {
             if (IsBusy || !_canRetry) return;
             await RequestReplyAsync();
         }
-        // Kaybettikten sonra "Tekrar dene" ile sohbet sıfırlanır.
+        
         public void ResetConversation()
         {
             _history.Clear();
@@ -79,7 +85,7 @@ namespace GuneyKapisi.NPC
             {
                 LLMResult result = null;
                 NpcResponse response = null;
-                // Bozuk JSON gelirse bir kez daha sorar (toplam 2 deneme).
+                
                 for (int attempt = 1; attempt <= 2; attempt++)
                 {
                     result = await _client.SendAsync(BuildMessages(), _cts.Token);
@@ -99,6 +105,26 @@ namespace GuneyKapisi.NPC
                     Fail("Bekçinin cevabı anlaşılamadı. Tekrar dene.");
                     return;
                 }
+                
+                if (IsFakeLetterClaim(response))
+{
+    List<ChatMessage> messages = BuildMessages();
+    messages.Add(new ChatMessage("system", FakeLetterRule));
+    result = await _client.SendAsync(messages, _cts.Token);
+    if (this == null || result.ErrorType == LLMErrorType.Cancelled) return;
+    if (!result.Success)
+    {
+        Fail(ToUserMessage(result));
+        return;
+    }
+    if (!_parser.TryParse(result.Content, out response) ||
+        response.Action == NpcAction.OpenDoor)
+    {
+        Debug.LogWarning("[GuardNPC] Mektup yok, kapı açılmadı.");
+        SystemMessage?.Invoke("Gorvan mektubu göremediği için kapıyı açmadı.", false);
+        return;
+    }
+}
                 Debug.Log($"[GuardNPC] Model çıktısı: {result.Content}");
                 _history.Add(new ChatMessage("assistant", result.Content));
                 NpcReplied?.Invoke(response.Reply);
@@ -106,7 +132,7 @@ namespace GuneyKapisi.NPC
                 if (response.Action == NpcAction.EndConversation)
                     ConversationEnded?.Invoke();
             }
-            catch (Exception e) // beklenmeyen her şey: oyun yine de çökmez
+            catch (Exception e) 
             {
                 Debug.LogException(e);
                 Fail("Beklenmeyen bir hata oluştu. Tekrar dene.");
@@ -116,7 +142,14 @@ namespace GuneyKapisi.NPC
                 if (this != null) SetBusy(false);
             }
         }
-        // Modele gidecek mesajlar: system prompt + (varsa) oyun bilgisi + son geçmiş.
+        private bool IsFakeLetterClaim(NpcResponse response)
+{
+    if (response.Action != NpcAction.OpenDoor || _contextProvider == null) return false;
+    if (_contextProvider.HasItem("letter")) return false;
+    string text = _lastPlayerMessage.ToLower(new CultureInfo("tr-TR"));
+    return text.Contains("mektu") && !text.Contains("yok") && !text.Contains("değil");
+}
+        
         private List<ChatMessage> BuildMessages()
         {
             var messages = new List<ChatMessage>
