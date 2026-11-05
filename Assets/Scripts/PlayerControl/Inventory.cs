@@ -17,6 +17,7 @@ namespace GuneyKapisi.PlayerControl
         }
 
         public bool Has(string id) => _items.ContainsKey(id);
+        public bool HasItem(string id) => Has(id);
 
         public string GetContextForNpc() =>
             _items.Count == 0

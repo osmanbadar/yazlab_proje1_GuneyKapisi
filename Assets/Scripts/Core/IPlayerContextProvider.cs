@@ -3,5 +3,6 @@
     public interface IPlayerContextProvider
     {
         string GetContextForNpc();
+        bool HasItem(string id);
     }
 }
