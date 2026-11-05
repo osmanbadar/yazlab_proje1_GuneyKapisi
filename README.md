@@ -281,10 +281,10 @@ RequestReplyAsync içinde bir try/catch var.
 | Durum | Hata türü | Oyuncunun gördüğü | Test |
 |---|---|---|---|
 | Ollama kapalı | ServerUnreachable | Ollama'ya ulaşılamadı mesajı ve Tekrar Dene düğmesi | Yapıldı |
-| Model yüklü değil | ModelNotFound | ollama pull komutunu söyleyen mesaj | OSMAN: test edince "Yapıldı" yaz |
-| Zaman aşımı (60 sn) | Timeout | "Bekçi çok uzun süre düşündü" mesajı ve Tekrar Dene düğmesi | Canlı denenmedi |
-| Sunucudan anlamsız cevap | BadResponse | "Beklenmeyen bir cevap geldi" mesajı ve Tekrar Dene düğmesi | Canlı denenmedi |
-| Bozuk JSON | Parser başarısız | Bir kez daha sorulur, yine bozuksa "Cevap anlaşılamadı" mesajı | Canlı denenmedi |
+| Model yüklü değil | ModelNotFound | ollama pull komutunu söyleyen mesaj | Yapıldı |
+| Zaman aşımı (60 sn) | Timeout | "Bekçi çok uzun süre düşündü" mesajı ve Tekrar Dene düğmesi | Canlı denendi |
+| Sunucudan anlamsız cevap | BadResponse | "Beklenmeyen bir cevap geldi" mesajı ve Tekrar Dene düğmesi | Canlı denendi |
+| Bozuk JSON | Parser başarısız | Bir kez daha sorulur, yine bozuksa "Cevap anlaşılamadı" mesajı | Canlı denendi |
 
 Şema kullandığımız için bozuk JSON pek beklemiyoruz. Gorvan
 testlerimizde hiç Geçersiz cevap kaydı çıkmadı.
