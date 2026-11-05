@@ -154,7 +154,7 @@ ILLMClient sınıfı yazıp o satırı değiştirmek yeterli.
 
 ### İstek ve yanıt akışı
 
-mermaid
+```mermaid
 sequenceDiagram
     actor Oyuncu
     participant UI as DialogueUI
@@ -188,6 +188,7 @@ sequenceDiagram
     else none
         Note over UI,NPC: Konuşma devam eder
     end
+```
 
 
 İstek async/await ile gönderildiği için model cevap verene
