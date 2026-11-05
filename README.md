@@ -47,6 +47,10 @@ classDiagram
     CompanionStateBase <|-- FollowState
     CompanionStateBase <|-- MoveToTargetState
     CompanionStateBase <|-- WaitState
+    CompanionStateBase <|-- IdleState
+    CompanionStateBase <|-- InteractState
+    CompanionStateBase <|-- ReturnState
+    CompanionStateBase <|-- FailedState
     ISensor <|.. RaycastSensor
     IInteractable <|.. Lever
     IResettable <|.. Bridge
@@ -139,9 +143,10 @@ en fazla son 10 mesaj gönderiliyor.
 
 Her parça arayüz üzerinden konuşuyor. GuardNPC, ILLMClient,
 IResponseParser, INpcActionHandler ve IPlayerContextProvider
-arayüzlerini kullanıyor. İstemci sadece Awake içinde
-oluşturuluyor. Başka bir model sunucusuna geçmek için yeni bir
-ILLMClient sınıfı yazıp o satırı değiştirmek yeterli.
+arayüzlerini kullanıyor. GuardNPC istemciyi sadece Awake içinde
+oluşturuyor. OllamaStatusUI da sunucuyu kontrol etmek için kendi
+istemcisini oluşturuyor. Başka bir model sunucusuna geçmek için
+yeni bir ILLMClient sınıfı yazıp bu iki satırı değiştirmek yeterli.
 
 | Sınıf | Görevi |
 |---|---|
@@ -177,6 +182,11 @@ sequenceDiagram
     Client-->>NPC: LLMResult
     NPC->>Parser: TryParse(içerik)
     Parser-->>NPC: NpcResponse
+    opt open_door, mektup yok ve oyuncu mektuptan bahsediyor
+        NPC->>Client: Ek kuralla tekrar sor
+        Client-->>NPC: Yeni cevap
+        Note over NPC: Yine open_door ise kapı açılmaz
+    end
     NPC-->>UI: Cevabı göster
     NPC->>Handler: Handle(eylem)
     alt open_door
