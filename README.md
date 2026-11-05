@@ -334,6 +334,16 @@ Yanlış çıkan iki denemeden birinde Gorvan "geç" dediği halde
 `none` döndü. Diğerinde kaba mesajlara "Bu son uyarım"
 demeye devam etti ve saldırmadı.
 
+### Ekran görüntüleri
+
+![Pip şalteri indirip dönüyor](docs/ekran/pip-tunel.png)
+![Köprü indi](docs/ekran/kopru.png)
+![Kamp](docs/ekran/kamp.png)
+![Gorvan düşünüyor](docs/ekran/dusunuyor.png)
+![Kazanma ekranı](docs/ekran/kazandin.png)
+![Kaybetme ekranı](docs/ekran/kaybettin.png)
+![Ollama kapalı](docs/ekran/ollama-kapali.png)
+
 ## 6. Sonuç ve Tartışma
 
 Minimum senaryoyu baştan sona çalıştırabildik. Pip 50 denemenin
