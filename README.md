@@ -334,6 +334,16 @@ Yanlış çıkan iki denemeden birinde Gorvan "geç" dediği halde
 `none` döndü. Diğerinde kaba mesajlara "Bu son uyarım"
 demeye devam etti ve saldırmadı.
 
+### Ekran görüntüleri
+
+![Pip şalteri indirip dönüyor](docs/ekran/pip-tunel.png)
+![Köprü indi](docs/ekran/kopru.png)
+![Kamp](docs/ekran/kamp.png)
+![Gorvan düşünüyor](docs/ekran/dusunuyor.png)
+![Kazanma ekranı](docs/ekran/kazandin.png)
+![Kaybetme ekranı](docs/ekran/kaybettin.png)
+![Ollama kapalı](docs/ekran/ollama-kapali.png)
+
 ## 6. Sonuç ve Tartışma
 
 Minimum senaryoyu baştan sona çalıştırabildik. Pip 50 denemenin
@@ -342,10 +352,11 @@ eylem doğru çıktı. Kapıyı `action` alanı açtığı için oyunun
 davranışı serbest metne bağlı kalmadı.
 
 En zayıf yanımız dil modeli. Gorvan bazen "geç" deyip kapıyı
-açmıyor, bazen kaba mesajlara rağmen saldırmıyor. Mektup kuralı
-da modele bağlı. Mektup yokken yaptığımız oyun içi testlerde
-yalana inanmadı, ama doğrudan Ollama'ya yaptığımız bir denemede
-4 mesajın 2'sinde kapıyı açtı. Sabit seed sonuçları
+açmıyor, bazen kaba mesajlara rağmen saldırmıyor. Model "mektup bende" 
+yalanına da bazen inanıyordu. Doğrudan Ollama'ya yaptığımız bir 
+denemede mektup yokken 8 mesajın 4'ünde kapıyı açtı. Bu yüzden 
+kapı açılmadan önce envanteri kodla da kontrol ediyoruz. 
+Model yine de açmak isterse kapı açılmıyor. Sabit seed sonuçları
 tekrarlanabilir yapıyor, ama her cümlede doğru karar vereceğini
 garanti etmiyor.
 
