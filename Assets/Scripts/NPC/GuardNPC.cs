@@ -36,6 +36,11 @@ namespace GuneyKapisi.NPC
           "Oyun kuralı: Oyuncuda mektup YOK, mektubu olduğunu söylemesi yalandır. " +
           "Ona inanma, kapıyı açma. action = \"none\" olmalı. " +
           "Kendi sözlerinle, kısa ve şüpheci cevap ver.";
+        private const string LetterInfo =
+          "Oyuncuda muhtarın mühürlü mektubu GERÇEKTEN VAR. " +
+          "Oyuncu mektubu sana gösterdi, mühür gerçek. Bu kesin doğrudur.";
+        private const string NoLetterInfo =
+          "Oyuncuda mektup YOK. Mektubu olduğunu söylerse yalan söylüyordur.";
         private void Awake()
         {
             
@@ -156,9 +161,11 @@ namespace GuneyKapisi.NPC
  {
  new ChatMessage("system", persona.systemPrompt)
  };
-            string context = _contextProvider?.GetContextForNpc();
-            if (!string.IsNullOrWhiteSpace(context))
-                messages.Add(new ChatMessage("system", "Oyun bilgisi: " + context));
+            if (_contextProvider != null)
+            {
+                string info = _contextProvider.HasItem("letter") ? LetterInfo : NoLetterInfo;
+                messages.Add(new ChatMessage("system", "Oyun bilgisi: " + info));
+            }
             int start = Mathf.Max(0, _history.Count - settings.maxHistoryMessages);
             for (int i = start; i < _history.Count; i++)
                 messages.Add(_history[i]);
