@@ -155,7 +155,7 @@ yeni bir ILLMClient sınıfı yazıp bu iki satırı değiştirmek yeterli.
 | OllamaClient | Ollama'ya HTTP isteği gönderir, hataları LLMResult ile döndürür. |
 | NpcResponseParser | Modelin metnini NpcResponse nesnesine çevirir. |
 | DoorActionHandler | Gelen eylemi kapıya veya oyun sonuna uygular. |
-| Inventory | Envanter bilgisini "Oyun bilgisi" olarak modele verir. |
+| Inventory | Oyuncuda mektup olup olmadığını söyler. GuardNPC bunu "Oyun bilgisi" olarak modele verir. |
 
 ### İstek ve yanıt akışı
 
@@ -174,8 +174,8 @@ sequenceDiagram
     Oyuncu->>UI: Mesaj yazar
     UI->>NPC: SendPlayerMessage(metin)
     NPC-->>UI: Düşünüyor... göster
-    NPC->>Env: GetContextForNpc()
-    Env-->>NPC: Envanter bilgisi
+    NPC->>Env: HasItem("letter")
+    Env-->>NPC: Mektup var mı
     NPC->>Client: SendAsync(mesajlar)
     Client->>Ollama: POST /api/chat (JSON şeması ile)
     Ollama-->>Client: Model cevabı
